@@ -42,7 +42,7 @@ class Preprocess {
       } else None
     }.filter(_._2 >= 0)
 
-    val result = filterData.map{record =>
+    val result: RDD[String] = filterData.map{ record =>
       val arr: Array[String] = Array(record._1, record._2.toString, record._3.toString, record._4, record._5.mkString(";"),
           record._6.mkString(";"), record._7.mkString(";"), record._8.mkString(";"), record._9.mkString("#@#"))
       arr.mkString("|")
