@@ -1,5 +1,6 @@
 import java.io.{BufferedWriter, FileOutputStream, OutputStreamWriter}
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.SparkSession
@@ -12,16 +13,16 @@ import org.junit.Test
   * @author   yhao
   */
 class Preprocess {
-
+  Logger.getLogger("org").setLevel(Level.WARN)
 
   @Test
-  def getDataWithAge(): Unit ={
-    val conf: SparkConf = new SparkConf().setAppName("get data with age").setMaster("local")
+  def getData(): Unit ={
+    val conf: SparkConf = new SparkConf().setAppName("get data").setMaster("local")
     val spark: SparkSession = SparkSession.builder().config(conf).getOrCreate()
     val sc: SparkContext = spark.sparkContext
 
     val filePath: String = "F:/data/001000_0"
-    val outputPath: String = "F:/data/data_with_age.dat"
+    val outputPath: String = "F:/data/data_with_ gender.dat"
     val data: RDD[String] = sc.textFile(filePath)
 
     val filterData = data.flatMap{line =>
@@ -39,7 +40,7 @@ class Preprocess {
 
         Some(userId, gender, ageBracket, nickName, appList, playList, collectList, downloadList, searchKeyWordList)
       } else None
-    }.filter(_._3 >= 0)
+    }.filter(_._2 >= 0)
 
     val result = filterData.map{record =>
       val arr: Array[String] = Array(record._1, record._2.toString, record._3.toString, record._4, record._5.mkString(";"),
