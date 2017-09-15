@@ -14,7 +14,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @author   yhao
   */
 class MultiClassifications(val spark: SparkSession) extends Serializable {
-  val logger = Logger.getLogger(this.getClass)
+  val logger: Logger = Logger.getLogger(this.getClass)
 
   private var method: String = "LR"
   private var iterNum: Int = 100
@@ -72,7 +72,7 @@ class MultiClassifications(val spark: SparkSession) extends Serializable {
     * @return   LR模型
     */
   def trainWithLR(data: DataFrame): LogisticRegressionModel = {
-    val lr = new LogisticRegression()
+    val lr: LogisticRegression = new LogisticRegression()
       .setMaxIter(iterNum)
       .setRegParam(regParam)
       .setAggregationDepth(aggregationDepth)
@@ -123,10 +123,10 @@ class MultiClassifications(val spark: SparkSession) extends Serializable {
   def evaluateWithLR(predictionAndLabels: RDD[(Double, Double)]): (Double, (Double, Double, Double)) = {
     val metrics = new MulticlassMetrics(predictionAndLabels)
 
-    val f1 = metrics.weightedFMeasure
-    val weightedPrecision = metrics.weightedPrecision
-    val weightedRecall = metrics.weightedRecall
-    val accuracy = metrics.accuracy
+    val f1: Double = metrics.weightedFMeasure
+    val weightedPrecision: Double = metrics.weightedPrecision
+    val weightedRecall: Double = metrics.weightedRecall
+    val accuracy: Double = metrics.accuracy
 
     (accuracy, (f1, weightedPrecision, weightedRecall))
   }
