@@ -23,6 +23,10 @@ class MultiClassifications(val spark: SparkSession) extends Serializable {
   private var elasticNetParam: Double = 0.0
   private var tol: Double = 1E-6
 
+  private var featureCol: String = "features"
+  private var labelCol: String = "label"
+  private var predictionCol: String = "prediction"
+
 
   def setMethod(value: String): this.type = {
     this.method = value
@@ -54,6 +58,21 @@ class MultiClassifications(val spark: SparkSession) extends Serializable {
     this
   }
 
+  def setFeatureCol(value: String): this.type = {
+    this.featureCol = value
+    this
+  }
+
+  def setLabelCol(value: String): this.type = {
+    this.labelCol = value
+    this
+  }
+
+  def setPredictionCol(value: String): this.type = {
+    this.predictionCol = value
+    this
+  }
+
 
   def train(data: DataFrame) = {
     val model = method match {
@@ -73,6 +92,9 @@ class MultiClassifications(val spark: SparkSession) extends Serializable {
     */
   def trainWithLR(data: DataFrame): LogisticRegressionModel = {
     val lr: LogisticRegression = new LogisticRegression()
+      .setFeaturesCol(featureCol)
+      .setLabelCol(labelCol)
+      .setPredictionCol(predictionCol)
       .setMaxIter(iterNum)
       .setRegParam(regParam)
       .setAggregationDepth(aggregationDepth)
