@@ -1,9 +1,9 @@
 object Test {
   def main(args: Array[String]): Unit = {
-    val text = "我是中国人"
+    val text = Array(24, 34, 1, 4, 43, 5, 5, 45, 4, 0)
 
-    val strArr: Array[String] = text.split("")
-
-    strArr.foreach(println)
+    for (i <- 1 to 5) {
+      println(text(i))
+    }
   }
 }

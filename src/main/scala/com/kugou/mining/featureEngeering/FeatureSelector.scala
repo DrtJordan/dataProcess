@@ -1,7 +1,7 @@
 package com.kugou.mining.featureEngeering
 
 import org.apache.log4j.Logger
-import org.apache.spark.ml.feature.ChiSqSelector
+import org.apache.spark.ml.feature.{ChiSqSelector, ChiSqSelectorModel}
 import org.apache.spark.sql.DataFrame
 
 /**
@@ -50,6 +50,7 @@ class FeatureSelector extends Serializable {
       .setLabelCol(labelCol)
       .setOutputCol(outputCol)
 
-    selector.fit(data).transform(data)
+    val chiSqModel: ChiSqSelectorModel = selector.fit(data)
+    chiSqModel.transform(data)
   }
 }
