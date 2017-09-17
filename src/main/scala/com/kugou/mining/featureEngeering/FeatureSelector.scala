@@ -4,6 +4,10 @@ import org.apache.log4j.Logger
 import org.apache.spark.ml.feature.ChiSqSelector
 import org.apache.spark.sql.DataFrame
 
+/**
+  *
+  * Created by yhao on 2017/9/15 13:48.
+  */
 class FeatureSelector extends Serializable {
   val logger = Logger.getLogger(this.getClass)
 
